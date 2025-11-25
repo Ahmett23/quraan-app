@@ -16,7 +16,8 @@ const App: React.FC = () => {
       <HashRouter>
         <div className="flex flex-col min-h-screen">
           <Navbar />
-          <main className="flex-grow pb-20 md:pb-0">
+          {/* Added md:pt-20 to push content down below the fixed desktop header */}
+          <main className="flex-grow pb-20 md:pb-0 md:pt-20">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/reader" element={<Reader />} />
