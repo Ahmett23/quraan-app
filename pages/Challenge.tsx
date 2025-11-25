@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
-import { Check, Lock, Trophy, ArrowRight, BookOpen, Target, Calendar, Plus, Search, Sparkles, LayoutGrid, ArrowLeft, Trash2, PartyPopper, Heart, AlertTriangle, RotateCcw, Dumbbell, X, Clock } from 'lucide-react';
+import { Check, Lock, Trophy, ArrowRight, BookOpen, Target, Calendar, Plus, Search, Sparkles, LayoutGrid, ArrowLeft, Trash2, PartyPopper, Heart, AlertTriangle, RotateCcw, Dumbbell, X, Clock, Bot } from 'lucide-react';
 import { getChapters } from '../services/api';
 import { Chapter } from '../types';
 
@@ -166,7 +165,7 @@ const Challenge: React.FC = () => {
         habits: habitList,
         progress: {},
         startDate: new Date().toISOString(),
-        timesCompleted: 0
+        timesCompleted: 0,
       };
       const updated = [...habitChallenges, newH];
       saveHabitChallenges(updated);
@@ -336,7 +335,7 @@ const Challenge: React.FC = () => {
   // 1. DASHBOARD VIEW
   if (!activeChallengeId && !isCreating) {
     return (
-      <div className="min-h-screen bg-emerald-50/20 pb-20">
+      <div className="min-h-screen bg-emerald-50/30 pb-20">
         {/* Header with Tabs */}
         <div className="bg-emerald-900 text-white pt-10 pb-8 px-4 rounded-b-[2rem] shadow-xl relative overflow-hidden mb-6">
            <div className="absolute top-0 right-0 opacity-10">
@@ -346,7 +345,7 @@ const Challenge: React.FC = () => {
                <h1 className="text-3xl font-bold mb-6 font-arabic tracking-wide text-center">My Challenges</h1>
                
                {/* Custom Tabs */}
-               <div className="flex bg-emerald-950/50 p-1 rounded-full max-w-md mx-auto backdrop-blur-sm">
+               <div className="flex bg-emerald-950/50 p-1 rounded-full max-w-md mx-auto backdrop-blur-sm border border-emerald-800">
                   <button 
                     onClick={() => setActiveTab('QURAN')}
                     className={`flex-1 py-3 px-4 rounded-full text-sm font-bold transition-all flex items-center justify-center gap-2 ${activeTab === 'QURAN' ? 'bg-white text-emerald-900 shadow-md' : 'text-emerald-300 hover:text-white'}`}
@@ -373,16 +372,16 @@ const Challenge: React.FC = () => {
                 {challenges.map(c => {
                    const percent = Math.round((c.completedDays.length / c.duration) * 100);
                    return (
-                      <div key={c.id} onClick={() => setActiveChallengeId(c.id)} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
+                      <div key={c.id} onClick={() => setActiveChallengeId(c.id)} className="bg-white rounded-2xl p-5 border border-emerald-100 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
                          <div className={`absolute bottom-0 left-0 h-1 transition-all duration-1000 ${percent === 100 ? 'bg-amber-400' : 'bg-emerald-500'}`} style={{ width: `${percent}%` }}></div>
                          <div className="flex justify-between items-start">
                             <div className="flex items-start gap-4">
-                               <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${c.type === 'ALL' ? 'bg-emerald-100 text-emerald-600' : 'bg-teal-100 text-teal-600'}`}>
+                               <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 bg-emerald-100 text-emerald-600">
                                   {c.type === 'ALL' ? <Target className="w-6 h-6" /> : <BookOpen className="w-6 h-6" />}
                                 </div>
                                 <div>
-                                   <h3 className="font-bold text-lg text-slate-800 mb-1 group-hover:text-emerald-700 transition-colors">{c.title}</h3>
-                                   <div className="flex items-center gap-3 text-xs text-slate-500">
+                                   <h3 className="font-bold text-lg text-emerald-950 mb-1 group-hover:text-emerald-700 transition-colors">{c.title}</h3>
+                                   <div className="flex items-center gap-3 text-xs text-emerald-600/70 font-medium">
                                       <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {c.duration} Days</span>
                                       {c.timesCompleted > 0 && <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold flex items-center gap-1"><RotateCcw className="w-3 h-3" /> x{c.timesCompleted}</span>}
                                       <span>{percent}% Done</span>
@@ -409,7 +408,7 @@ const Challenge: React.FC = () => {
                    const percent = totalHabits > 0 ? Math.round((completedCount / totalHabits) * 100) : 0;
 
                    return (
-                      <div key={h.id} onClick={() => setActiveChallengeId(h.id)} className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
+                      <div key={h.id} onClick={() => setActiveChallengeId(h.id)} className="bg-white rounded-2xl p-5 border border-emerald-100 shadow-sm hover:shadow-md transition-all cursor-pointer group relative overflow-hidden">
                          <div className={`absolute bottom-0 left-0 h-1 transition-all duration-1000 ${percent === 100 ? 'bg-amber-400' : 'bg-emerald-500'}`} style={{ width: `${percent}%` }}></div>
                          <div className="flex justify-between items-start">
                             <div className="flex items-start gap-4">
@@ -417,16 +416,16 @@ const Challenge: React.FC = () => {
                                   <Dumbbell className="w-6 h-6" />
                                 </div>
                                 <div>
-                                   <h3 className="font-bold text-lg text-slate-800 mb-1 group-hover:text-emerald-700 transition-colors">{h.title}</h3>
-                                   <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500 mb-2">
+                                   <h3 className="font-bold text-lg text-emerald-950 mb-1 group-hover:text-emerald-700 transition-colors">{h.title}</h3>
+                                   <div className="flex flex-wrap items-center gap-2 text-xs text-emerald-600/70 font-medium mb-2">
                                       <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {h.duration} Days</span>
                                       {h.timesCompleted > 0 && <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold flex items-center gap-1"><RotateCcw className="w-3 h-3" /> x{h.timesCompleted}</span>}
                                    </div>
                                    <div className="flex flex-wrap gap-1">
                                       {h.habits.slice(0, 3).map((habit, i) => (
-                                         <span key={i} className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-600">{habit}</span>
+                                         <span key={i} className="text-[10px] bg-emerald-50 px-2 py-0.5 rounded text-emerald-700 font-medium">{habit}</span>
                                       ))}
-                                      {h.habits.length > 3 && <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500">+{h.habits.length - 3}</span>}
+                                      {h.habits.length > 3 && <span className="text-[10px] bg-emerald-50 px-2 py-0.5 rounded text-emerald-600">+{h.habits.length - 3}</span>}
                                    </div>
                                 </div>
                             </div>
@@ -443,7 +442,7 @@ const Challenge: React.FC = () => {
             <div className="fixed bottom-24 right-6 z-30">
                <button 
                   onClick={() => setIsCreating(true)}
-                  className="flex items-center gap-2 bg-emerald-900 text-white pl-4 pr-6 py-4 rounded-full shadow-2xl hover:bg-emerald-800 transition-all hover:scale-105 active:scale-95"
+                  className="flex items-center gap-2 bg-emerald-800 text-white pl-4 pr-6 py-4 rounded-full shadow-2xl shadow-emerald-900/40 hover:bg-emerald-700 transition-all hover:scale-105 active:scale-95 border border-emerald-700"
                >
                   <Plus className="w-6 h-6" />
                   <span className="font-bold">New {activeTab === 'QURAN' ? 'Quran' : 'Habit'} Challenge</span>
@@ -469,10 +468,10 @@ const Challenge: React.FC = () => {
     );
   }
 
-  // 2. CREATION VIEW (Modernized)
+  // 2. CREATION VIEW (Modernized & Green)
   if (isCreating) {
     return (
-      <div className="fixed inset-0 bg-slate-100 z-50 overflow-y-auto">
+      <div className="fixed inset-0 bg-emerald-50 z-50 overflow-y-auto">
          {/* Background Header */}
          <div className="h-48 bg-emerald-900 relative">
              <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
@@ -481,22 +480,22 @@ const Challenge: React.FC = () => {
              </button>
              <div className="absolute bottom-16 left-0 w-full text-center z-10">
                  <h1 className="text-2xl font-bold text-white tracking-wide">Create New Challenge</h1>
-                 <p className="text-white/70 text-sm mt-1">Start your journey today</p>
+                 <p className="text-emerald-100 text-sm mt-1">Start your journey today</p>
              </div>
          </div>
 
          {/* Form Container */}
          <div className="max-w-xl mx-auto px-4 -mt-10 pb-20 relative z-10">
-             <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 animate-in slide-in-from-bottom-10 duration-300">
+             <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 animate-in slide-in-from-bottom-10 duration-300 border border-emerald-100">
                 
                 {/* Duration Section (Shared) */}
                 <div className="mb-8">
                    <div className="flex items-center gap-2 mb-3">
-                       <Clock className="w-5 h-5 text-slate-400" />
+                       <Clock className="w-5 h-5 text-emerald-500" />
                        <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Duration (Days)</label>
                    </div>
                    
-                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                   <div className="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100">
                        <div className="flex items-center gap-4 mb-4">
                            <input 
                               type="range" min="1" max="100" 
@@ -504,14 +503,14 @@ const Challenge: React.FC = () => {
                               onChange={(e) => setCustomDuration(Number(e.target.value))}
                               className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-emerald-200 accent-emerald-600"
                            />
-                           <div className="min-w-[60px] text-center font-black text-2xl text-slate-800">{customDuration}</div>
+                           <div className="min-w-[60px] text-center font-black text-2xl text-emerald-900">{customDuration}</div>
                        </div>
                        <div className="flex justify-between gap-2">
                            {[7, 30, 75].map(d => (
                                <button 
                                  key={d} 
                                  onClick={() => setCustomDuration(d)}
-                                 className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${customDuration === d ? 'bg-emerald-600 text-white' : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-50'}`}
+                                 className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${customDuration === d ? 'bg-emerald-600 text-white shadow-md' : 'bg-white border border-emerald-200 text-emerald-600 hover:bg-emerald-50'}`}
                                >
                                    {d} Days
                                </button>
@@ -528,16 +527,16 @@ const Challenge: React.FC = () => {
                           <div className="grid grid-cols-2 gap-4">
                              <button 
                                 onClick={() => setQuranType('SURAH')} 
-                                className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${quranType === 'SURAH' ? 'border-teal-500 bg-teal-50 text-teal-900 shadow-sm' : 'border-slate-100 text-slate-400 hover:bg-slate-50'}`}
+                                className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${quranType === 'SURAH' ? 'border-emerald-500 bg-emerald-50 text-emerald-900 shadow-sm' : 'border-slate-100 text-slate-400 hover:bg-slate-50'}`}
                              >
-                                <div className={`p-2 rounded-full ${quranType === 'SURAH' ? 'bg-teal-200' : 'bg-slate-100'}`}><BookOpen className="w-5 h-5" /></div>
+                                <div className={`p-2 rounded-full ${quranType === 'SURAH' ? 'bg-emerald-200 text-emerald-800' : 'bg-slate-100'}`}><BookOpen className="w-5 h-5" /></div>
                                 <span className="font-bold text-sm">Specific Surah</span>
                              </button>
                              <button 
                                 onClick={() => setQuranType('ALL')} 
                                 className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${quranType === 'ALL' ? 'border-emerald-500 bg-emerald-50 text-emerald-900 shadow-sm' : 'border-slate-100 text-slate-400 hover:bg-slate-50'}`}
                              >
-                                <div className={`p-2 rounded-full ${quranType === 'ALL' ? 'bg-emerald-200' : 'bg-slate-100'}`}><Target className="w-5 h-5" /></div>
+                                <div className={`p-2 rounded-full ${quranType === 'ALL' ? 'bg-emerald-200 text-emerald-800' : 'bg-slate-100'}`}><Target className="w-5 h-5" /></div>
                                 <span className="font-bold text-sm">Whole Quran</span>
                              </button>
                           </div>
@@ -611,7 +610,7 @@ const Challenge: React.FC = () => {
                             {habitList.map((h, i) => (
                                <div key={i} className="bg-white text-emerald-700 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 border border-emerald-100 shadow-sm animate-in zoom-in-50">
                                   {h}
-                                  <button onClick={() => handleRemoveHabitItem(i)} className="text-slate-300 hover:text-rose-500 transition-colors"><X className="w-4 h-4" /></button>
+                                  <button onClick={() => handleRemoveHabitItem(i)} className="text-emerald-300 hover:text-rose-500 transition-colors"><X className="w-4 h-4" /></button>
                                </div>
                             ))}
                             {habitList.length === 0 && (
@@ -629,7 +628,7 @@ const Challenge: React.FC = () => {
                     <button 
                        onClick={createChallenge}
                        disabled={activeTab === 'HABIT' && (habitList.length === 0 || !habitTitle)}
-                       className="w-full py-4 text-white rounded-2xl font-bold shadow-xl transition-all hover:-translate-y-1 flex items-center justify-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-teal-500 to-emerald-600 shadow-teal-500/30"
+                       className="w-full py-4 text-white rounded-2xl font-bold shadow-xl transition-all hover:-translate-y-1 flex items-center justify-center gap-2 text-lg disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-emerald-500 to-emerald-700 shadow-emerald-500/30"
                     >
                        <Sparkles className="w-5 h-5 fill-current" /> 
                        Start Challenge
@@ -651,9 +650,14 @@ const Challenge: React.FC = () => {
      const progressPercentage = Math.round((challenge.completedDays.length / challenge.duration) * 100);
 
      return (
-        <div className="min-h-screen bg-sand-50 pb-20">
+        <div className="min-h-screen bg-emerald-50/20 pb-20">
            {showConfetti && <ConfettiOverlay />}
-           {showCompletionModal && <CompletionModal onRestart={handleFinishAndRestart} />}
+           {showCompletionModal && (
+               <AICompletionModal 
+                   onRestart={handleFinishAndRestart} 
+                   type="QURAN"
+               />
+           )}
            {/* Quran Header */}
            <DetailHeader 
               title={challenge.title}
@@ -698,9 +702,14 @@ const Challenge: React.FC = () => {
      const progressPercentage = totalHabits > 0 ? Math.round((completedCount / totalHabits) * 100) : 0;
 
      return (
-        <div className="min-h-screen bg-sand-50 pb-20">
+        <div className="min-h-screen bg-emerald-50/20 pb-20">
            {showConfetti && <ConfettiOverlay />}
-           {showCompletionModal && <CompletionModal onRestart={handleFinishAndRestart} />}
+           {showCompletionModal && (
+               <AICompletionModal 
+                   onRestart={handleFinishAndRestart} 
+                   type="HABIT"
+               />
+           )}
            
            {/* Habit Header */}
            <DetailHeader 
@@ -776,7 +785,7 @@ const Challenge: React.FC = () => {
 
 const EmptyState = ({ type }: { type: 'QURAN' | 'HABIT' }) => (
   <div className="text-center py-12">
-     <div className="inline-flex bg-slate-100 p-4 rounded-full mb-4 text-slate-400">
+     <div className="inline-flex bg-emerald-50 p-4 rounded-full mb-4 text-emerald-300">
         <LayoutGrid className="w-8 h-8" />
      </div>
      <h3 className="text-slate-600 font-medium mb-1">No active {type.toLowerCase()} challenges</h3>
@@ -792,14 +801,14 @@ const DetailHeader = ({ title, duration, timesCompleted, progress, colorClass, o
        <div className="text-center md:text-left">
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-3">
              <div className="inline-flex items-center gap-2 bg-black/20 px-3 py-1 rounded-full text-white/90 text-xs font-bold uppercase tracking-wider border border-white/10"><Calendar className="w-3 h-3" /> {duration} Days</div>
-             {timesCompleted > 0 && <div className="inline-flex items-center gap-2 bg-amber-500/20 px-3 py-1 rounded-full text-amber-200 text-xs font-bold uppercase tracking-wider border border-amber-500/30"><RotateCcw className="w-3 h-3" /> Finished: {timesCompleted}</div>}
+             {timesCompleted > 0 && <div className="inline-flex items-center gap-2 bg-emerald-500/30 px-3 py-1 rounded-full text-emerald-200 text-xs font-bold uppercase tracking-wider border border-emerald-500/30"><RotateCcw className="w-3 h-3" /> Finished: {timesCompleted}</div>}
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-2 font-arabic tracking-wide">{title}</h1>
        </div>
        <div className="relative w-28 h-28 md:w-32 md:h-32 flex-shrink-0">
            <svg className="w-full h-full transform -rotate-90">
              <circle cx="50%" cy="50%" r="45%" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-black/30" />
-             <circle cx="50%" cy="50%" r="45%" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-yellow-400 transition-all duration-1000 ease-out" strokeDasharray={283} strokeDashoffset={283 - (283 * progress) / 100} strokeLinecap="round"/>
+             <circle cx="50%" cy="50%" r="45%" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-emerald-400 transition-all duration-1000 ease-out" strokeDasharray={283} strokeDashoffset={283 - (283 * progress) / 100} strokeLinecap="round"/>
            </svg>
            <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center"><span className="text-2xl font-bold">{progress}%</span></div>
         </div>
@@ -830,22 +839,75 @@ const ConfettiOverlay = () => (
   </div>
 );
 
-const CompletionModal = ({ onRestart }: any) => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-emerald-900/80 backdrop-blur-sm animate-in fade-in duration-500">
-     <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl animate-in zoom-in-95 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full opacity-5 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
-        <div className="relative z-10">
-            <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6"><PartyPopper className="w-10 h-10 text-amber-500" /></div>
-            <h2 className="text-2xl font-bold text-emerald-900 mb-2 font-arabic">Hambalyo!</h2>
-            <h3 className="text-lg font-medium text-emerald-700 mb-4">Waad Dhameysay Challenge-ka</h3>
-            <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-100 mb-6">
-               <Heart className="w-6 h-6 text-rose-500 mx-auto mb-2 fill-current animate-pulse" />
-               <p className="text-slate-600 leading-relaxed font-arabic text-lg">"Guul wacan! Alle ha kuu barakeeyo waqtigaaga."</p>
+// AI MESSAGE COMPONENT
+const AICompletionModal = ({ onRestart, type }: { onRestart: () => void, type: 'QURAN' | 'HABIT' }) => {
+    const [status, setStatus] = useState<'LOADING' | 'READY'>('LOADING');
+    const [messageData, setMessageData] = useState<{ text: string; isDua: boolean } | null>(null);
+
+    useEffect(() => {
+        // Simulate AI "Thinking"
+        const timer1 = setTimeout(() => {
+            // Generate Message based on Type
+            let msgs = [];
+            if (type === 'QURAN') {
+                msgs = [
+                    { text: "Masha'Allah! Quraanku ha noqdo nuurka qalbigaaga iyo hanuunka noloshaada.", isDua: true },
+                    { text: "Ilaahay ha kaa aqbalo, hana kaa dhigo kuwa Quraanka ku dhaqma.", isDua: true },
+                    { text: "Dadaalkaagu waa mid miro dhal ah. Sii wad wanaaga iyo cibaadada!", isDua: false },
+                    { text: "Guul weyn! Akhriska Quraanku waa ganacsi aan khasaare lahayn.", isDua: false }
+                ];
+            } else {
+                msgs = [
+                    { text: "Hambalyo! Joogteyntu waa furaha guusha. Naftaada waad ka adkaatay!", isDua: false },
+                    { text: "Maanta waxaad qaaday tallaabo weyn oo horumar ah. Sii wad dadaalka!", isDua: false },
+                    { text: "Waa guul cajiib ah! Caadooyinka wanaagsan waxay dhisaan mustaqbal ifaya.", isDua: false },
+                    { text: "Ilaahay ha kuu barakeeyo waqtigaaga iyo dadaalkaaga.", isDua: true }
+                ];
+            }
+            const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
+            setMessageData(randomMsg);
+            setStatus('READY');
+        }, 2000); // 2 second delay for effect
+
+        return () => clearTimeout(timer1);
+    }, [type]);
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-emerald-900/80 backdrop-blur-sm animate-in fade-in duration-500">
+            <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl animate-in zoom-in-95 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full opacity-5 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+                <div className="relative z-10">
+                    
+                    {status === 'LOADING' ? (
+                        <div className="py-10 flex flex-col items-center">
+                            <Bot className="w-12 h-12 text-emerald-500 animate-bounce mb-4" />
+                            <h3 className="text-xl font-bold text-slate-700 mb-2">AI is thinking...</h3>
+                            <p className="text-slate-400 text-sm">Diyaarinta Natiijada...</p>
+                        </div>
+                    ) : (
+                        <div className="animate-in slide-in-from-bottom-5 duration-500">
+                            <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6"><PartyPopper className="w-10 h-10 text-amber-500" /></div>
+                            <h2 className="text-2xl font-bold text-emerald-900 mb-2 font-arabic">Hambalyo!</h2>
+                            <h3 className="text-lg font-medium text-emerald-700 mb-4">Waad Dhameysay Challenge-ka</h3>
+                            
+                            {/* AI Message Box */}
+                            <div className="bg-emerald-50 p-5 rounded-2xl border border-emerald-100 mb-6 relative">
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-2 py-0.5 rounded-full text-[10px] font-bold text-emerald-600 border border-emerald-100 shadow-sm flex items-center gap-1">
+                                    <Bot className="w-3 h-3" /> AI Message
+                                </div>
+                                <Heart className="w-5 h-5 text-rose-500 mx-auto mb-2 fill-current animate-pulse" />
+                                <p className="text-slate-700 leading-relaxed font-arabic text-lg italic">"{messageData?.text}"</p>
+                            </div>
+                            
+                            <button onClick={onRestart} className="w-full py-3 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-600/20">
+                                {messageData?.isDua ? "Aamiin" : "Waayahay"}
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
-            <button onClick={onRestart} className="w-full py-3 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-600/20">Aamiin (Dib u bilow)</button>
         </div>
-     </div>
-  </div>
-);
+    );
+}
 
 export default Challenge;
